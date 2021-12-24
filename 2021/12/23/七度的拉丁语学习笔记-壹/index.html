@@ -28,7 +28,7 @@
 <meta property="og:description" content="写在开头结果紧急购入了Wheelock 说实话一直没有写学习笔记的习惯，因为初中和高中课程的难度实在是没有浪费这些时间的必要……而竞赛课程又太让人想摸鱼了。 于是上一次记录笔记还是高三暑假读托克维尔的《论美国的民主》的时候，然而由于最开始没有定下整体的基调所以很遗憾的退化成摘录了，所以在第一篇希望设计一下整体的结构。当然了，由于学习进度的变化和难度的增加，肯定会有不适用的时候，不过我想就这几天由于">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-12-23T09:47:03.000Z">
-<meta property="article:modified_time" content="2021-12-23T17:22:08.023Z">
+<meta property="article:modified_time" content="2021-12-23T17:29:21.998Z">
 <meta property="article:author" content="七度@sddn">
 <meta name="twitter:card" content="summary">
 
@@ -181,10 +181,17 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-24 01:22:08" itemprop="dateModified" datetime="2021-12-24T01:22:08+08:00">2021-12-24</time>
+                <time title="修改时间：2021-12-24 01:29:21" itemprop="dateModified" datetime="2021-12-24T01:29:21+08:00">2021-12-24</time>
               </span>
 
           
+            <span id="/2021/12/23/%E4%B8%83%E5%BA%A6%E7%9A%84%E6%8B%89%E4%B8%81%E8%AF%AD%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E5%A3%B9/" class="post-meta-item leancloud_visitors" data-flag-title="七度的拉丁语学习笔记(壹)" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
 
         </div>
       </header>
@@ -257,7 +264,7 @@
 <h3 id="宾格"><a href="#宾格" class="headerlink" title="宾格"></a>宾格</h3><blockquote>
 <p>accusativus</p>
 </blockquote>
-<p>accusativus来源于accuso(to abuse, blame)，按照wikitionary的做法，事实上accusativus是古希腊语的错译，原意更像是”related to an effect”</p>
+<p>accusativus来源于accuso(to abuse, blame)，按照wikitionary的说法，事实上accusativus是古希腊语的错译，原意更像是”related to an effect”</p>
 <p>在例句中，canem作为谓语动词amat的宾语变格成为了宾格形式，由于canem的单数属格形式结尾是-is，适用于第三变格法，因此宾格形式为-em.变格法的具体规律在之后的学习中再深入展开，此处先放下不表，尽管如此，我们可以观察到大多数词的单数宾格都以m结尾，这也可以作为一个辨认的特征。</p>
 <h2 id="生词"><a href="#生词" class="headerlink" title="生词"></a>生词</h2><p>这里只会记录该词在今天的学习中接触到的意象，如果有更多需求相信在以后过程中可以一并解决。</p>
 <h3 id="Puer"><a href="#Puer" class="headerlink" title="Puer"></a>Puer</h3><p>Noun</p>
@@ -466,6 +473,92 @@
 
 
 
+<script>
+  (function() {
+    function leancloudSelector(url) {
+      url = encodeURI(url);
+      return document.getElementById(url).querySelector('.leancloud-visitors-count');
+    }
+
+    function addCount(Counter) {
+      var visitors = document.querySelector('.leancloud_visitors');
+      var url = decodeURI(visitors.id);
+      var title = visitors.dataset.flagTitle;
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          if (results.length > 0) {
+            var counter = results[0];
+            leancloudSelector(url).innerText = counter.time + 1;
+            Counter('put', '/classes/Counter/' + counter.objectId, { time: { '__op': 'Increment', 'amount': 1 } })
+              .catch(error => {
+                console.error('Failed to save visitor count', error);
+              });
+          } else {
+              leancloudSelector(url).innerText = 'Counter not initialized! More info at console err msg.';
+              console.error('ATTENTION! LeanCloud counter has security bug, see how to solve it here: https://github.com/theme-next/hexo-leancloud-counter-security. \n However, you can still use LeanCloud without security, by setting `security` option to `false`.');
+            
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    function showTime(Counter) {
+      var visitors = document.querySelectorAll('.leancloud_visitors');
+      var entries = [...visitors].map(element => {
+        return decodeURI(element.id);
+      });
+
+      Counter('get', '/classes/Counter?where=' + encodeURIComponent(JSON.stringify({ url: { '$in': entries } })))
+        .then(response => response.json())
+        .then(({ results }) => {
+          for (let url of entries) {
+            let target = results.find(item => item.url === url);
+            leancloudSelector(url).innerText = target ? target.time : 0;
+          }
+        })
+        .catch(error => {
+          console.error('LeanCloud Counter Error', error);
+        });
+    }
+
+    let { app_id, app_key, server_url } = {"enable":true,"app_id":"oaGIq4ehPjbeDXb29LOci1xr-gzGzoHsz","app_key":"IGBXycMu3JTEwOWrpJsicHTS","server_url":null,"security":true};
+    function fetchData(api_server) {
+      var Counter = (method, url, data) => {
+        return fetch(`${api_server}/1.1${url}`, {
+          method,
+          headers: {
+            'X-LC-Id'     : app_id,
+            'X-LC-Key'    : app_key,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+      };
+      if (CONFIG.page.isPost) {
+        if (CONFIG.hostname !== location.hostname) return;
+        addCount(Counter);
+      } else if (document.querySelectorAll('.post-title-link').length >= 1) {
+        showTime(Counter);
+      }
+    }
+
+    let api_server = app_id.slice(-9) !== '-MdYXbMMI' ? server_url : `https://${app_id.slice(0, 8).toLowerCase()}.api.lncldglobal.com`;
+
+    if (api_server) {
+      fetchData(api_server);
+    } else {
+      fetch('https://app-router.leancloud.cn/2/route?appId=' + app_id)
+        .then(response => response.json())
+        .then(({ api_server }) => {
+          fetchData('https://' + api_server);
+        });
+    }
+  })();
+</script>
 
 
       </div>
