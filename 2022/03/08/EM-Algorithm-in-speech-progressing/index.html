@@ -20,19 +20,19 @@
     var CONFIG = {"hostname":"7ddn.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"livere","storage":true,"lazyload":false,"nav":null,"activeClass":"livere"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="因为一些事情摸了一周orz 第一变格法部分名词和形容词遵循第一变格法，根据其单数的属格词尾可以判断，遵循第一变格法的词为-ae 其变形为    格 单数 复数    主格 -a -ae   属格 -ae -arum   与格 -ae -is   宾格 -am -as   夺格 -a -is   呼格 -a -ae   又是一张需要背的表！学习语言真妙啊() 性拉丁语的词具有词性，然而除了男孩&#x2F;女孩">
+  <meta name="description" content="背景知识前向概率:$$ \alpha_t(i)&#x3D;P(q_t&#x3D;i,o^t_1), t&#x3D;1,…,T$$后向概率:$$ \beta_t(i)&#x3D;P(o^T_{t+1}|q_t&#x3D;i), t&#x3D;1,…,T-1$$ 其中$o_a^b$表示观测序列$(o_a,o_{a+1},…,o_b)$ 利用前向和后向概率可以递推的计算马尔科夫链中的$P(o_1^T)$，否则几乎其时间复杂度几乎不可接受。 其递推式为分别为$$\">
 <meta property="og:type" content="article">
-<meta property="og:title" content="七度的拉丁语学习笔记(柒)">
-<meta property="og:url" content="https://7ddn.github.io/2022/01/19/%E4%B8%83%E5%BA%A6%E7%9A%84%E6%8B%89%E4%B8%81%E8%AF%AD%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%9F%92/index.html">
+<meta property="og:title" content="EM Algorithm in speech progressing">
+<meta property="og:url" content="https://7ddn.github.io/2022/03/08/EM-Algorithm-in-speech-progressing/index.html">
 <meta property="og:site_name" content="七度">
-<meta property="og:description" content="因为一些事情摸了一周orz 第一变格法部分名词和形容词遵循第一变格法，根据其单数的属格词尾可以判断，遵循第一变格法的词为-ae 其变形为    格 单数 复数    主格 -a -ae   属格 -ae -arum   与格 -ae -is   宾格 -am -as   夺格 -a -is   呼格 -a -ae   又是一张需要背的表！学习语言真妙啊() 性拉丁语的词具有词性，然而除了男孩&#x2F;女孩">
+<meta property="og:description" content="背景知识前向概率:$$ \alpha_t(i)&#x3D;P(q_t&#x3D;i,o^t_1), t&#x3D;1,…,T$$后向概率:$$ \beta_t(i)&#x3D;P(o^T_{t+1}|q_t&#x3D;i), t&#x3D;1,…,T-1$$ 其中$o_a^b$表示观测序列$(o_a,o_{a+1},…,o_b)$ 利用前向和后向概率可以递推的计算马尔科夫链中的$P(o_1^T)$，否则几乎其时间复杂度几乎不可接受。 其递推式为分别为$$\">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-01-18T16:51:17.000Z">
-<meta property="article:modified_time" content="2022-01-26T15:44:30.666Z">
+<meta property="article:published_time" content="2022-03-08T08:12:25.000Z">
+<meta property="article:modified_time" content="2022-03-09T12:48:15.526Z">
 <meta property="article:author" content="七度@sddn">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://7ddn.github.io/2022/01/19/%E4%B8%83%E5%BA%A6%E7%9A%84%E6%8B%89%E4%B8%81%E8%AF%AD%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%9F%92/">
+<link rel="canonical" href="https://7ddn.github.io/2022/03/08/EM-Algorithm-in-speech-progressing/">
 
 
 <script id="page-configurations">
@@ -45,7 +45,7 @@
   };
 </script>
 
-  <title>七度的拉丁语学习笔记(柒) | 七度</title>
+  <title>EM Algorithm in speech progressing | 七度</title>
   
 
 
@@ -156,7 +156,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://7ddn.github.io/2022/01/19/%E4%B8%83%E5%BA%A6%E7%9A%84%E6%8B%89%E4%B8%81%E8%AF%AD%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%9F%92/">
+    <link itemprop="mainEntityOfPage" href="https://7ddn.github.io/2022/03/08/EM-Algorithm-in-speech-progressing/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -169,7 +169,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          七度的拉丁语学习笔记(柒)
+          EM Algorithm in speech progressing
         </h1>
 
         <div class="post-meta">
@@ -179,14 +179,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-01-19 00:51:17" itemprop="dateCreated datePublished" datetime="2022-01-19T00:51:17+08:00">2022-01-19</time>
+              <time title="创建时间：2022-03-08 16:12:25" itemprop="dateCreated datePublished" datetime="2022-03-08T16:12:25+08:00">2022-03-08</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-26 23:44:30" itemprop="dateModified" datetime="2022-01-26T23:44:30+08:00">2022-01-26</time>
+                <time title="修改时间：2022-03-09 20:48:15" itemprop="dateModified" datetime="2022-03-09T20:48:15+08:00">2022-03-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -196,10 +196,14 @@
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
                 </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/%E8%AF%AD%E9%9F%B3%E5%A4%84%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">语音处理</span></a>
+                </span>
             </span>
 
           
-            <span id="/2022/01/19/%E4%B8%83%E5%BA%A6%E7%9A%84%E6%8B%89%E4%B8%81%E8%AF%AD%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%9F%92/" class="post-meta-item leancloud_visitors" data-flag-title="七度的拉丁语学习笔记(柒)" title="阅读次数">
+            <span id="/2022/03/08/EM-Algorithm-in-speech-progressing/" class="post-meta-item leancloud_visitors" data-flag-title="EM Algorithm in speech progressing" title="阅读次数">
               <span class="post-meta-item-icon">
                 <i class="fa fa-eye"></i>
               </span>
@@ -216,80 +220,65 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>因为一些事情摸了一周orz</p>
-<h2 id="第一变格法"><a href="#第一变格法" class="headerlink" title="第一变格法"></a>第一变格法</h2><p>部分名词和形容词遵循第一变格法，根据其单数的属格词尾可以判断，遵循第一变格法的词为-ae</p>
-<p>其变形为</p>
-<table>
-<thead>
-<tr>
-<th>格</th>
-<th>单数</th>
-<th>复数</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>主格</td>
-<td>-a</td>
-<td>-ae</td>
-</tr>
-<tr>
-<td>属格</td>
-<td>-ae</td>
-<td>-arum</td>
-</tr>
-<tr>
-<td>与格</td>
-<td>-ae</td>
-<td>-is</td>
-</tr>
-<tr>
-<td>宾格</td>
-<td>-am</td>
-<td>-as</td>
-</tr>
-<tr>
-<td>夺格</td>
-<td>-a</td>
-<td>-is</td>
-</tr>
-<tr>
-<td>呼格</td>
-<td>-a</td>
-<td>-ae</td>
-</tr>
-</tbody></table>
-<p>又是一张需要背的表！学习语言真妙啊()</p>
-<h3 id="性"><a href="#性" class="headerlink" title="性"></a>性</h3><p>拉丁语的词具有词性，然而除了男孩/女孩这样<em>显然</em>是阳性或阴性的词以外，大多数时候性别只是一个语法概念。</p>
-<p>属于第一变位法的词大多数都是阴性词。一些例外是<strong>罗马人认为应该由男人从事的职业</strong>，例如poeta(poet,诗人), nauta(sailor,水手), agricola(farmer,农夫), auriga(charioteer, 战车手), incola(inhabitant, 居民), pirata(pirate, 海盗)等</p>
-<p>尽管这看起来是 一项规律，但是显然的我们不是罗马人，要做额外的关于“罗马人觉得什么职业该是男人从事的”大概实在是舍近求远，因此一些额外的记忆工作还是必要的。对于第一变位法来说，阳性和阴性也并不存在变为不一样的情况，相对来说记忆成本也会小一些。</p>
-<p>当然了，作为一名卑劣的业余拉丁语学习者，任何现代的拉丁语词典都会带有词的性相关的信息。</p>
-<h3 id="形容词、一致、词序"><a href="#形容词、一致、词序" class="headerlink" title="形容词、一致、词序"></a>形容词、一致、词序</h3><p>英语中的形容词是没有屈折变化的，但是拉丁语中形容词需要在性、数、格上都与其所修饰的名词保持一致。</p>
-<p>对于一个形容词修饰多个名词的情况，一般来讲与其最近的名词保持一致，书中提到存在其他的例外(阳性优先等)，这里等我们碰到了再具体分析。</p>
-<p>而从上来讲，形容词通常跟在名词之后，指示大小和数目的形容词例外。</p>
-<h3 id="语法与句法"><a href="#语法与句法" class="headerlink" title="语法与句法"></a>语法与句法</h3><p>从拉丁语来看上一篇中提到的例句，我们可以应用刚学到的知识对整体结构做一个分析。</p>
-<blockquote>
-<p>The poet is giving the girl large roses (<strong>or</strong> is giving large roses to the girl).</p>
-<p>Poeta puellae magnas rosas dat. </p>
-</blockquote>
-<p>Poeta在这里是单数主格，做这句话的主语，而紧跟在其后的不是英语中的谓语结构，而是这句话的间接宾语puella，因此其变为与格形式puellae(-ae)，有趣的是，这句话的谓语动词正是给/与(do/dat)</p>
-<p>而直接主语rosas则为复数宾格，因此修饰它的形容词magnas也是复数宾格形式，因此我们也看知道诗人送花的对象并不是一位<em>巨大</em>的女孩。同时，注意到表示大小的magnas的位置在被修饰的rosas之前。</p>
-<p>这个句子的最后一个成分是谓语动词dat, 为do的第三人称单数现在时直陈式，与Poeta的数人称和数保持一致。</p>
-<blockquote>
-<p>The girls are giving the poet’s roses to the sailors.</p>
-<p>Puellae nautis rosas poetae dant.</p>
-</blockquote>
-<p>对于第二个例句，主语是Puellae，为主格复数形式，nautis和第一句一样为复数与格形式作为间接宾语。只不过这里修饰rosas的词从形容词变成了poeta的属格。</p>
-<p>话说这个句子真是个悲伤的故事……</p>
-<blockquote>
-<ol start="3">
-<li>Without money the girls’ country (<strong>or</strong> the country of the girls) is not strong.</li>
-</ol>
-<p>Patria puellarum sine pecunia non valet.</p>
-</blockquote>
-<p>首先主语仍是单数主格的Patria, 有趣的是，尽管Patria的词源可能是Pater(father), 但是它是阴性词。关于Fatherland和Motherland的文化区分，有一篇简单的<a target="_blank" rel="noopener" href="https://www.dictionary.com/e/motherland-vs-fatherland/">介绍文章</a></p>
-<p>而修饰主语的是puellarum的复数属格。在这之后是一个夺格介词短语, sine是介词，意为without, 而pecunia作为介词的宾语为单数夺格，这个词组在此表示手段，因此使用夺格。</p>
-<p>最后的谓语valet为第三人称单数。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>由于拉丁语的语序并不固定，直接通过其句法理解句意可能会遇到一些困难，此时往往需要词法的辅助；而词的某些变格却又有类似的形式，尽管可能存在一些长音上的区别，但是在现代的书写中并不总是会记有长音符号，此时又需要结合上下文来判断。因此阅读拉丁语是一个整体的过程，这也为初学者带来了许多挑战。</p>
+        <h2 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h2><p>前向概率:<br>$$ \alpha_t(i)=P(q_t=i,o^t_1), t=1,…,T$$<br>后向概率:<br>$$ \beta_t(i)=P(o^T_{t+1}|q_t=i), t=1,…,T-1$$</p>
+<p>其中$o_a^b$表示观测序列$(o_a,o_{a+1},…,o_b)$</p>
+<p>利用前向和后向概率可以递推的计算马尔科夫链中的$P(o_1^T)$，否则几乎其时间复杂度几乎不可接受。</p>
+<p>其递推式为分别为<br>$$\alpha_t(j)=\sum^N_{i=1}\alpha_{t-1}(i)a_{ij}b_j(o_t), t=2,3,…,T; j=1,2,…,N$$<br>$$\beta_t(i)=\sum^N_{j=1}\beta_{t+1}(j)a_{ij}b_j(o_{t+1}), t=T-1, T-2,…; i=1,2,…,N$$</p>
+<p>另外，由定义我们不难得到初值。对于$\alpha$，有<br>$$\alpha_1(i) = P(q_1=i,o_1)=P(q_1=i)P(o_1|q_1)=\pi_ib_i(o_1)$$</p>
+<p>对于$\beta$,因为在定义域之外，我们选择$\beta_T(i)=1$</p>
+<p>其中，$b_i(o_1)$表示当前状态为$i$时观测结果为$o_1$的概率，而$\pi_i$表示马尔科夫链的稳定分布(stationary distribution)，即当$t\to \infty$时$p_i(t)$的值</p>
+<p>而定义了前向和后向概率后，我们可以将$P(o_1^T)$分解，有<br>$$ \begin{aligned}<br>P(q_t&amp;=i,o_1^T)=P(q_t=i,o_1^t,o_{t+1}^T)\<br>&amp;=P(q_t=i,o_1^t)P(q_t=i,o^T_{t+1}|o_1^t,q_t=i)\<br>&amp;=P(q_t=i,o_1^t)P(q_t=i,o^T_{t+1},q_t=i)\<br>&amp;=\alpha_t(i)\beta_t(i)<br>\end{aligned}$$<br>注意到第二行到第三行成立是因为在特定状态下观测是独立同分布(IID)的。</p>
+<p>由此有<br>$$P(o_1^T)=\sum^N_{i=1}P(q_t=i,o^T_1)=\sum^N_{i=1}\alpha_t(i)\beta_t(i)$$</p>
+<p>注意到这里的t，即$\alpha$和$\beta$的分断点是任意选择的，那么我们只要令$t=T$就有</p>
+<p>$$P(o_1^T)=\sum^N_{i=1}\alpha_T(i)$$</p>
+<h2 id="EM算法"><a href="#EM算法" class="headerlink" title="EM算法"></a>EM算法</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>考虑全数据$y={o,h}$，其中$o$是观测到的数据，而$h$是隐藏的变量。那么要找到参数$\theta$，我们需要最大化其对数似然函数$log p(o;\theta)$，但是这个概率分布函数是相对难以计算的，因此EM算法试图迭代地处理全数据$y$，再通过建立$y$到$o$的映射$o=g(y)$来解决问题。而全数据的选择对于不同的问题通常具有其独特性。</p>
+<p>而通过合理的选择隐数据$h$,可以配合观测数据$o$来构造全数据$y$，这样可以简化似然估计的过程。</p>
+<p>考虑以下条件期望<br>$$ Q(\theta|\theta_0)=E_{h|o}[\log p(y;\theta)o;\theta_0] = E[\log p(o,h;\theta)|o;\theta_0]$$</p>
+<p>对$h$在其所有的可能性上求和(如果是连续的则为积分)就可以得到似然函数的值。注意到这个似然函数的值是与$\theta_0$相关的，相当于在初值$\theta_0$的基础上计算得到了一个新的$\theta$,而可以保证$\theta$是收敛的，即$$Q(\theta|\theta_{k+1})\ge Q(\theta|\theta_k)$$，仅在$\theta_k$已是一个最大似然估计时取到等号。</p>
+<h3 id="Baum-Welch-算法"><a href="#Baum-Welch-算法" class="headerlink" title="Baum-Welch 算法"></a>Baum-Welch 算法</h3><p>如在上一节中所述，对于EM算法我们需要一个观测数据和一个隐藏数据来构造全数据，对于HMM来说，分别为观测序列$o^T_1$和隐马尔科夫链状态序列$q_1^T$，代入公式则有<br>$$ Q(\theta|\theta_0)= E[\log p(o^T_1,q^T_1;\theta)|o^T_1;\theta_0]$$</p>
+<h4 id="E步骤"><a href="#E步骤" class="headerlink" title="E步骤"></a>E步骤</h4><p>在E步骤中，需要将$Q(\theta|\theta_0)$化简到便于在M步骤中最大化的形式。将期望展开则有</p>
+<p>$$ \begin{aligned}<br>Q(\theta|\theta_0)&amp;= E[\log p(o^T_1,q^T_1;\theta)|o^T_1;\theta_0]\<br>&amp;=\sum_{q_1^T}P(q_1^T|o_1^T,\theta_0)\log P(o_1^T,q_1^T|\theta)<br>\end{aligned} $$，其中$\theta$和$\theta_0$表示当次和上一次迭代中的参数</p>
+<p>由于在高斯混合HMM中，$P(o_1^T|q_1^T)$服从高斯分布，但其形式过于复杂，为了方便简写，我们令<br>$$N_t(i) = -\frac{D}{2}\log(2\pi)-\frac12\log|\Sigma_i|-\frac12(o_t-\mu_i)^\mathrm{T}\Sigma^-1_i(o_t-\mu_i)$$</p>
+<p>则<br>$$\log P(o_1^T|q_1^T) = \sum_{t=1}^T N_t(q_t)$$</p>
+<p>同时，由转移概率$a_{ij}$的定义可以得到$P(q_1^T)=\prod_{t=1}^{T-1}a_{q_tq_{t+1}}$，因此有<br>$$\log P(o_1^T,q_1^T|\theta) = \log P(o_1^T|q_1^T)P(q_1^T) = \sum_{t=1}^T N_t(q_t) + \sum_{t=1}^{T-1}\log a_{q_tq_{t+1}}$$</p>
+<p>回代到$Q$的定义式中有<br>$$ Q(\theta|\theta_0)=\sum_{q_1^T}P(q_1^T|o_1^T,\theta_0)\sum_{t=1}^T N_t(q_t) + \sum_{q_1^T}P(q_1^T|o_1^T,\theta_0)\sum_{t=1}^{T-1}\log a_{q_tq_{t+1}}$$</p>
+<p>首先引入克罗内克$\delta$函数(Kronecker delta)</p>
+<p>$$\delta_{ij} =<br>    \begin{cases}<br>    1 &amp; (i=j),\<br>    0 &amp; (i\neq j)<br>    \end{cases} $$</p>
+<p>由于$\delta$仅在一个点上取到非$0$值，因此乘上它并不会改变函数的值。所以可以利用构造一个合适的$\delta$函数并调换乘项位置来化简$Q$.</p>
+<p>在本例中，对$Q$的第一项有<br>$$<br>\begin{aligned}<br>Q_1(\theta|\theta_0)&amp;=\sum^N_{i=1}\left{\sum_{q^T_1}P(q_1^T|o_1^T,\theta_0)\sum^T_{t=1}N_t(q_t) \right}\delta_{q_t,i}\<br>&amp;=\sum^N_{i=1}\left{\sum_{q^T_1}P(q_1^T|o_1^T,\theta_0)\delta_{q_t,i}\sum^T_{t=1}N_t(q_t) \right}\<br>&amp;=\sum^N_{i=1}\sum^T_{t=1}P(q_t=i|o_1^T,\theta_0)N_t(q_t)\<br>\end{aligned}<br>$$</p>
+<p>同理，对$Q$的第二项乘上$\delta_{q_t,i}\delta_{q_{t+1},j}$可得<br>$$Q_2(\theta|\theta_0)=\sum^N_{i=1}\sum^N_{j=1}\sum^{T-1}<em>{t=1}P(q_t=i,q</em>{t+1}=j|o_1^T,\theta_0)\log a_{ij}$$</p>
+<p>由此，不难注意到Q的两项分别只与高斯分布($N_t(I)$)和马尔科夫链($a_{ij}$)有关，因此可以独立的最大化这两项。</p>
+<p>令$Q_1$和$Q_2$中连加时使用的权分别为<br>$$\begin{aligned}<br>\gamma_t(i) &amp;= P(q_t=i|o_1^T,\theta_0)\<br>\xi_t(i,j) &amp;= P(q_t=i, q_{t+1}=j|o_1^T,\theta_0)<br>\end{aligned}$$</p>
+<p>则由其定义，不难得出</p>
+<p>$$\xi_t(i,j) = \frac{\alpha_t(i)\beta_{t+1}(j)a_{ij}\exp(N_{t+1}(j))}{P(o_1^T|\theta_0)}, t=1,2,…,T-1.$$</p>
+<p>由定义式，显然的，对$\xi_t$在j上求和就可以得到$\gamma$</p>
+<p>$$ \gamma_t(i)=\sum^N_{j=1}\xi_t(i,j), t=1,2,…,T-1.$$</p>
+<p>又由定义可以直接得到</p>
+<p>$$ \gamma_T(i)=P(q_T=i|o_1^T,\theta_0) = \frac{P(q_t=i,o_1^T|\theta_0)}{P(o_1^T|\theta_0)}=\frac{\alpha_T(i)}{P(o_1^T|\theta_0)}$$</p>
+<p>由此将$Q$化简为了只要对状态$i$或状态对$i,j$遍历的便于计算的形式，以在M步骤中处理。</p>
+<h4 id="M步骤"><a href="#M步骤" class="headerlink" title="M步骤"></a>M步骤</h4><p>在M步骤中需要将E步骤中得到的$Q_1$和$Q_2$的值在$\theta_0$下最大化。对于$Q_2$，令$\frac{\partial Q_2}{\partial a_{ij}}=0$。由于有边界条件$\sum^N_{j=1}a_{ij}=1$，使用标准拉格朗日乘数法可以得到</p>
+<p>$$\hat a=\frac{\sum^{T-1}<em>{t=1}\xi_t(i,j)}{\sum^{T-1}</em>{t=1}\gamma_t(i)}$$</p>
+<p>具体计算步骤略去。</p>
+<p>而对$Q_1$，我们省掉与优化无关的常数项和常数系数后可以得到等价的目标函数<br>$$Q_1(\mu_i,\Sigma_i)=\sum^N_{i=1}\sum^{Tr}_{t=1}\gamma_t(i)(o_t-\mu_i)^\mathrm{T}\Sigma^-1_i(o_t-\mu_i)-\frac12\log|\Sigma_i|$$</p>
+<p>省略的部分包括高斯分布中与$\Sigma$无关的项，以及最后一项的系数(显然的有$\sum^N_{i=1}\gamma_t(i)=1$,那么再过一次求和之后仍然是常数，求导之后会被消去)</p>
+<p>则相等于解<br>$$\frac{\partial Q_1}{\partial\Sigma_i}=0, i=1,2,…,N.$$</p>
+<p>令$K=\Sigma^-1$，则对$\log|\Sigma_i|$项，$k_{lm}$的导数就是$\Sigma$中对应的项，即$\sigma_{lm}$，于是单项的导数$\frac{\partial Q_1}{\partial k_{lm}}=0$,即</p>
+<p>$$\sum^T_{t=1}\gamma_t(i)\left{\frac12\sigma_{lm}-\frac12(o_t-\mu_i)_l(o_t-\mu_i)_m\right}=0$$</p>
+<p>将$\sigma_{lm}$解出并写成矩阵形式有</p>
+<p>$$\hat\Sigma_i = \frac{\sum^T_{t=1}\gamma_t(i)(o_t-\hat\mu_i)(o_t-\hat\mu_i)^\mathrm{T}}{\sum^T_{t=1}\gamma_t(i)}$$</p>
+<p>从而有</p>
+<p>$$ \hat\mu_i=\frac{\sum^T_{t=1}\gamma_t(i)o_t}{\sum^T_{t=1}\gamma(i)}$$</p>
+<h2 id="Viterbi算法"><a href="#Viterbi算法" class="headerlink" title="Viterbi算法"></a>Viterbi算法</h2><p>Viterbi算法用于解码HMM状态，即，已知一个观测$o_1^T$，求出最可能的HMM状态序列$q_1^T$</p>
+<p>其核心思想是动态规划，由于这个算法在OI中相当常见就不再赘述其背景了。</p>
+<p>在Viterbi算法中，我们要最大化的量是</p>
+<p>$$ \delta_i(t) = \mathop{max}\limits_{q1,q2,…,q_{t-1}} P(o_1^t,q_1^{t-1},q_t=i)$$</p>
+<p>也就是对于观测序列$o^t_1$,假设t时刻之前的HMM状态序列为$q_1^{t-1}$的情况下，$t$时刻状态为$i$的概率。</p>
+<p>而有了$t$时刻的状态i的目标函数则可以简单的得到下一时刻状态j下的目标函数表达式，即</p>
+<p>$$ \delta_j(t+1) = \mathop{max}\limits_{i}\delta_i(t)a_{ij}b_j(o_{t+1}) $$</p>
+<p>这个式子的三项分别为：转移前的状态i的概率，从前状态i转移到该状态j的概率，以及对于相应的观测$o_{t+1}$，该时刻处于状态j的概率。</p>
+<p>由此迭代到T时刻就可以得到最大概率$P^*$，以及所有时刻的状态路径$q^*(t)$</p>
+<p>如果曾经有做过DP相关的题目这部分应该不难理解。</p>
+<p>至此，利用EM算法和Viterbi算法，我们就完成了对HMM参数的估计以及隐参数HMM状态序列的解码。</p>
 
     </div>
 
@@ -324,13 +313,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/01/11/%E7%94%A8%E4%BF%A1%E6%81%AF%E8%AE%BA%E8%A7%A3%E5%86%B3%E7%8C%9C%E8%AF%8D%E9%97%AE%E9%A2%98/" rel="prev" title="用信息论解决猜词问题">
-      <i class="fa fa-chevron-left"></i> 用信息论解决猜词问题
+    <a href="/2022/02/25/%E4%B8%83%E5%BA%A6%E7%9A%84%E6%8B%89%E4%B8%81%E8%AF%AD%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-3-2/" rel="prev" title="七度的拉丁语学习笔记(3-2)">
+      <i class="fa fa-chevron-left"></i> 七度的拉丁语学习笔记(3-2)
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/01/26/%E4%B8%83%E5%BA%A6%E7%9A%84%E6%8B%89%E4%B8%81%E8%AF%AD%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-%E6%8D%8C/" rel="next" title="七度的拉丁语学习笔记(捌)">
-      七度的拉丁语学习笔记(捌) <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -394,7 +380,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E5%8F%98%E6%A0%BC%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">第一变格法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%A7"><span class="nav-number">1.1.</span> <span class="nav-text">性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%A2%E5%AE%B9%E8%AF%8D%E3%80%81%E4%B8%80%E8%87%B4%E3%80%81%E8%AF%8D%E5%BA%8F"><span class="nav-number">1.2.</span> <span class="nav-text">形容词、一致、词序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95%E4%B8%8E%E5%8F%A5%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text">语法与句法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%83%8C%E6%99%AF%E7%9F%A5%E8%AF%86"><span class="nav-number">1.</span> <span class="nav-text">背景知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EM%E7%AE%97%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">EM算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">2.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Baum-Welch-%E7%AE%97%E6%B3%95"><span class="nav-number">2.2.</span> <span class="nav-text">Baum-Welch 算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#E%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.2.1.</span> <span class="nav-text">E步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#M%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.2.2.</span> <span class="nav-text">M步骤</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Viterbi%E7%AE%97%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">Viterbi算法</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

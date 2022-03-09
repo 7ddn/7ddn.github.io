@@ -151,6 +151,149 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://7ddn.github.io/2022/03/08/EM-Algorithm-in-speech-progressing/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="七度@sddn">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="七度">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/08/EM-Algorithm-in-speech-progressing/" class="post-title-link" itemprop="url">EM Algorithm in speech progressing</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-03-08 16:12:25" itemprop="dateCreated datePublished" datetime="2022-03-08T16:12:25+08:00">2022-03-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-09 20:48:15" itemprop="dateModified" datetime="2022-03-09T20:48:15+08:00">2022-03-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">笔记</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AC%94%E8%AE%B0/%E8%AF%AD%E9%9F%B3%E5%A4%84%E7%90%86/" itemprop="url" rel="index"><span itemprop="name">语音处理</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/2022/03/08/EM-Algorithm-in-speech-progressing/" class="post-meta-item leancloud_visitors" data-flag-title="EM Algorithm in speech progressing" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="背景知识"><a href="#背景知识" class="headerlink" title="背景知识"></a>背景知识</h2><p>前向概率:<br>$$ \alpha_t(i)=P(q_t=i,o^t_1), t=1,…,T$$<br>后向概率:<br>$$ \beta_t(i)=P(o^T_{t+1}|q_t=i), t=1,…,T-1$$</p>
+<p>其中$o_a^b$表示观测序列$(o_a,o_{a+1},…,o_b)$</p>
+<p>利用前向和后向概率可以递推的计算马尔科夫链中的$P(o_1^T)$，否则几乎其时间复杂度几乎不可接受。</p>
+<p>其递推式为分别为<br>$$\alpha_t(j)=\sum^N_{i=1}\alpha_{t-1}(i)a_{ij}b_j(o_t), t=2,3,…,T; j=1,2,…,N$$<br>$$\beta_t(i)=\sum^N_{j=1}\beta_{t+1}(j)a_{ij}b_j(o_{t+1}), t=T-1, T-2,…; i=1,2,…,N$$</p>
+<p>另外，由定义我们不难得到初值。对于$\alpha$，有<br>$$\alpha_1(i) = P(q_1=i,o_1)=P(q_1=i)P(o_1|q_1)=\pi_ib_i(o_1)$$</p>
+<p>对于$\beta$,因为在定义域之外，我们选择$\beta_T(i)=1$</p>
+<p>其中，$b_i(o_1)$表示当前状态为$i$时观测结果为$o_1$的概率，而$\pi_i$表示马尔科夫链的稳定分布(stationary distribution)，即当$t\to \infty$时$p_i(t)$的值</p>
+<p>而定义了前向和后向概率后，我们可以将$P(o_1^T)$分解，有<br>$$ \begin{aligned}<br>P(q_t&amp;=i,o_1^T)=P(q_t=i,o_1^t,o_{t+1}^T)\<br>&amp;=P(q_t=i,o_1^t)P(q_t=i,o^T_{t+1}|o_1^t,q_t=i)\<br>&amp;=P(q_t=i,o_1^t)P(q_t=i,o^T_{t+1},q_t=i)\<br>&amp;=\alpha_t(i)\beta_t(i)<br>\end{aligned}$$<br>注意到第二行到第三行成立是因为在特定状态下观测是独立同分布(IID)的。</p>
+<p>由此有<br>$$P(o_1^T)=\sum^N_{i=1}P(q_t=i,o^T_1)=\sum^N_{i=1}\alpha_t(i)\beta_t(i)$$</p>
+<p>注意到这里的t，即$\alpha$和$\beta$的分断点是任意选择的，那么我们只要令$t=T$就有</p>
+<p>$$P(o_1^T)=\sum^N_{i=1}\alpha_T(i)$$</p>
+<h2 id="EM算法"><a href="#EM算法" class="headerlink" title="EM算法"></a>EM算法</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>考虑全数据$y={o,h}$，其中$o$是观测到的数据，而$h$是隐藏的变量。那么要找到参数$\theta$，我们需要最大化其对数似然函数$log p(o;\theta)$，但是这个概率分布函数是相对难以计算的，因此EM算法试图迭代地处理全数据$y$，再通过建立$y$到$o$的映射$o=g(y)$来解决问题。而全数据的选择对于不同的问题通常具有其独特性。</p>
+<p>而通过合理的选择隐数据$h$,可以配合观测数据$o$来构造全数据$y$，这样可以简化似然估计的过程。</p>
+<p>考虑以下条件期望<br>$$ Q(\theta|\theta_0)=E_{h|o}[\log p(y;\theta)o;\theta_0] = E[\log p(o,h;\theta)|o;\theta_0]$$</p>
+<p>对$h$在其所有的可能性上求和(如果是连续的则为积分)就可以得到似然函数的值。注意到这个似然函数的值是与$\theta_0$相关的，相当于在初值$\theta_0$的基础上计算得到了一个新的$\theta$,而可以保证$\theta$是收敛的，即$$Q(\theta|\theta_{k+1})\ge Q(\theta|\theta_k)$$，仅在$\theta_k$已是一个最大似然估计时取到等号。</p>
+<h3 id="Baum-Welch-算法"><a href="#Baum-Welch-算法" class="headerlink" title="Baum-Welch 算法"></a>Baum-Welch 算法</h3><p>如在上一节中所述，对于EM算法我们需要一个观测数据和一个隐藏数据来构造全数据，对于HMM来说，分别为观测序列$o^T_1$和隐马尔科夫链状态序列$q_1^T$，代入公式则有<br>$$ Q(\theta|\theta_0)= E[\log p(o^T_1,q^T_1;\theta)|o^T_1;\theta_0]$$</p>
+<h4 id="E步骤"><a href="#E步骤" class="headerlink" title="E步骤"></a>E步骤</h4><p>在E步骤中，需要将$Q(\theta|\theta_0)$化简到便于在M步骤中最大化的形式。将期望展开则有</p>
+<p>$$ \begin{aligned}<br>Q(\theta|\theta_0)&amp;= E[\log p(o^T_1,q^T_1;\theta)|o^T_1;\theta_0]\<br>&amp;=\sum_{q_1^T}P(q_1^T|o_1^T,\theta_0)\log P(o_1^T,q_1^T|\theta)<br>\end{aligned} $$，其中$\theta$和$\theta_0$表示当次和上一次迭代中的参数</p>
+<p>由于在高斯混合HMM中，$P(o_1^T|q_1^T)$服从高斯分布，但其形式过于复杂，为了方便简写，我们令<br>$$N_t(i) = -\frac{D}{2}\log(2\pi)-\frac12\log|\Sigma_i|-\frac12(o_t-\mu_i)^\mathrm{T}\Sigma^-1_i(o_t-\mu_i)$$</p>
+<p>则<br>$$\log P(o_1^T|q_1^T) = \sum_{t=1}^T N_t(q_t)$$</p>
+<p>同时，由转移概率$a_{ij}$的定义可以得到$P(q_1^T)=\prod_{t=1}^{T-1}a_{q_tq_{t+1}}$，因此有<br>$$\log P(o_1^T,q_1^T|\theta) = \log P(o_1^T|q_1^T)P(q_1^T) = \sum_{t=1}^T N_t(q_t) + \sum_{t=1}^{T-1}\log a_{q_tq_{t+1}}$$</p>
+<p>回代到$Q$的定义式中有<br>$$ Q(\theta|\theta_0)=\sum_{q_1^T}P(q_1^T|o_1^T,\theta_0)\sum_{t=1}^T N_t(q_t) + \sum_{q_1^T}P(q_1^T|o_1^T,\theta_0)\sum_{t=1}^{T-1}\log a_{q_tq_{t+1}}$$</p>
+<p>首先引入克罗内克$\delta$函数(Kronecker delta)</p>
+<p>$$\delta_{ij} =<br>    \begin{cases}<br>    1 &amp; (i=j),\<br>    0 &amp; (i\neq j)<br>    \end{cases} $$</p>
+<p>由于$\delta$仅在一个点上取到非$0$值，因此乘上它并不会改变函数的值。所以可以利用构造一个合适的$\delta$函数并调换乘项位置来化简$Q$.</p>
+<p>在本例中，对$Q$的第一项有<br>$$<br>\begin{aligned}<br>Q_1(\theta|\theta_0)&amp;=\sum^N_{i=1}\left{\sum_{q^T_1}P(q_1^T|o_1^T,\theta_0)\sum^T_{t=1}N_t(q_t) \right}\delta_{q_t,i}\<br>&amp;=\sum^N_{i=1}\left{\sum_{q^T_1}P(q_1^T|o_1^T,\theta_0)\delta_{q_t,i}\sum^T_{t=1}N_t(q_t) \right}\<br>&amp;=\sum^N_{i=1}\sum^T_{t=1}P(q_t=i|o_1^T,\theta_0)N_t(q_t)\<br>\end{aligned}<br>$$</p>
+<p>同理，对$Q$的第二项乘上$\delta_{q_t,i}\delta_{q_{t+1},j}$可得<br>$$Q_2(\theta|\theta_0)=\sum^N_{i=1}\sum^N_{j=1}\sum^{T-1}<em>{t=1}P(q_t=i,q</em>{t+1}=j|o_1^T,\theta_0)\log a_{ij}$$</p>
+<p>由此，不难注意到Q的两项分别只与高斯分布($N_t(I)$)和马尔科夫链($a_{ij}$)有关，因此可以独立的最大化这两项。</p>
+<p>令$Q_1$和$Q_2$中连加时使用的权分别为<br>$$\begin{aligned}<br>\gamma_t(i) &amp;= P(q_t=i|o_1^T,\theta_0)\<br>\xi_t(i,j) &amp;= P(q_t=i, q_{t+1}=j|o_1^T,\theta_0)<br>\end{aligned}$$</p>
+<p>则由其定义，不难得出</p>
+<p>$$\xi_t(i,j) = \frac{\alpha_t(i)\beta_{t+1}(j)a_{ij}\exp(N_{t+1}(j))}{P(o_1^T|\theta_0)}, t=1,2,…,T-1.$$</p>
+<p>由定义式，显然的，对$\xi_t$在j上求和就可以得到$\gamma$</p>
+<p>$$ \gamma_t(i)=\sum^N_{j=1}\xi_t(i,j), t=1,2,…,T-1.$$</p>
+<p>又由定义可以直接得到</p>
+<p>$$ \gamma_T(i)=P(q_T=i|o_1^T,\theta_0) = \frac{P(q_t=i,o_1^T|\theta_0)}{P(o_1^T|\theta_0)}=\frac{\alpha_T(i)}{P(o_1^T|\theta_0)}$$</p>
+<p>由此将$Q$化简为了只要对状态$i$或状态对$i,j$遍历的便于计算的形式，以在M步骤中处理。</p>
+<h4 id="M步骤"><a href="#M步骤" class="headerlink" title="M步骤"></a>M步骤</h4><p>在M步骤中需要将E步骤中得到的$Q_1$和$Q_2$的值在$\theta_0$下最大化。对于$Q_2$，令$\frac{\partial Q_2}{\partial a_{ij}}=0$。由于有边界条件$\sum^N_{j=1}a_{ij}=1$，使用标准拉格朗日乘数法可以得到</p>
+<p>$$\hat a=\frac{\sum^{T-1}<em>{t=1}\xi_t(i,j)}{\sum^{T-1}</em>{t=1}\gamma_t(i)}$$</p>
+<p>具体计算步骤略去。</p>
+<p>而对$Q_1$，我们省掉与优化无关的常数项和常数系数后可以得到等价的目标函数<br>$$Q_1(\mu_i,\Sigma_i)=\sum^N_{i=1}\sum^{Tr}_{t=1}\gamma_t(i)(o_t-\mu_i)^\mathrm{T}\Sigma^-1_i(o_t-\mu_i)-\frac12\log|\Sigma_i|$$</p>
+<p>省略的部分包括高斯分布中与$\Sigma$无关的项，以及最后一项的系数(显然的有$\sum^N_{i=1}\gamma_t(i)=1$,那么再过一次求和之后仍然是常数，求导之后会被消去)</p>
+<p>则相等于解<br>$$\frac{\partial Q_1}{\partial\Sigma_i}=0, i=1,2,…,N.$$</p>
+<p>令$K=\Sigma^-1$，则对$\log|\Sigma_i|$项，$k_{lm}$的导数就是$\Sigma$中对应的项，即$\sigma_{lm}$，于是单项的导数$\frac{\partial Q_1}{\partial k_{lm}}=0$,即</p>
+<p>$$\sum^T_{t=1}\gamma_t(i)\left{\frac12\sigma_{lm}-\frac12(o_t-\mu_i)_l(o_t-\mu_i)_m\right}=0$$</p>
+<p>将$\sigma_{lm}$解出并写成矩阵形式有</p>
+<p>$$\hat\Sigma_i = \frac{\sum^T_{t=1}\gamma_t(i)(o_t-\hat\mu_i)(o_t-\hat\mu_i)^\mathrm{T}}{\sum^T_{t=1}\gamma_t(i)}$$</p>
+<p>从而有</p>
+<p>$$ \hat\mu_i=\frac{\sum^T_{t=1}\gamma_t(i)o_t}{\sum^T_{t=1}\gamma(i)}$$</p>
+<h2 id="Viterbi算法"><a href="#Viterbi算法" class="headerlink" title="Viterbi算法"></a>Viterbi算法</h2><p>Viterbi算法用于解码HMM状态，即，已知一个观测$o_1^T$，求出最可能的HMM状态序列$q_1^T$</p>
+<p>其核心思想是动态规划，由于这个算法在OI中相当常见就不再赘述其背景了。</p>
+<p>在Viterbi算法中，我们要最大化的量是</p>
+<p>$$ \delta_i(t) = \mathop{max}\limits_{q1,q2,…,q_{t-1}} P(o_1^t,q_1^{t-1},q_t=i)$$</p>
+<p>也就是对于观测序列$o^t_1$,假设t时刻之前的HMM状态序列为$q_1^{t-1}$的情况下，$t$时刻状态为$i$的概率。</p>
+<p>而有了$t$时刻的状态i的目标函数则可以简单的得到下一时刻状态j下的目标函数表达式，即</p>
+<p>$$ \delta_j(t+1) = \mathop{max}\limits_{i}\delta_i(t)a_{ij}b_j(o_{t+1}) $$</p>
+<p>这个式子的三项分别为：转移前的状态i的概率，从前状态i转移到该状态j的概率，以及对于相应的观测$o_{t+1}$，该时刻处于状态j的概率。</p>
+<p>由此迭代到T时刻就可以得到最大概率$P^*$，以及所有时刻的状态路径$q^*(t)$</p>
+<p>如果曾经有做过DP相关的题目这部分应该不难理解。</p>
+<p>至此，利用EM算法和Viterbi算法，我们就完成了对HMM参数的估计以及隐参数HMM状态序列的解码。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://7ddn.github.io/2022/02/25/%E4%B8%83%E5%BA%A6%E7%9A%84%E6%8B%89%E4%B8%81%E8%AF%AD%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0-3-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1257,155 +1400,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://7ddn.github.io/2022/01/05/%E5%8D%83%E5%B2%9B%E6%B9%96%E9%AA%91%E8%A1%8C%E5%A4%8D%E7%9B%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="七度@sddn">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="七度">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/01/05/%E5%8D%83%E5%B2%9B%E6%B9%96%E9%AA%91%E8%A1%8C%E5%A4%8D%E7%9B%98/" class="post-title-link" itemprop="url">千岛湖骑行复盘</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-01-05 00:16:03 / 修改时间：01:47:18" itemprop="dateCreated datePublished" datetime="2022-01-05T00:16:03+08:00">2022-01-05</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9A%8F%E7%AC%94/" itemprop="url" rel="index"><span itemprop="name">随笔</span></a>
-                </span>
-            </span>
-
-          
-            <span id="/2022/01/05/%E5%8D%83%E5%B2%9B%E6%B9%96%E9%AA%91%E8%A1%8C%E5%A4%8D%E7%9B%98/" class="post-meta-item leancloud_visitors" data-flag-title="千岛湖骑行复盘" title="阅读次数">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-eye"></i>
-              </span>
-              <span class="post-meta-item-text">阅读次数：</span>
-              <span class="leancloud-visitors-count"></span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>这篇其实一直想写，无奈之前没有什么好的平台（又懒得搭blog）所以拖到现在。鉴于之后准备寒假骑一次魔都，趁这个机会决定在自己的记忆消失之前复盘一下暑假的时候骑行千岛湖的情况。</p>
-<p>本文接下来大概分为三个部分，一是前期准备，二是图中响应遇到的困难，三是对此的一些反思以及接下来需要做的额外准备，在最后还会提一些路上的感想。</p>
-<h2 id="前期准备"><a href="#前期准备" class="headerlink" title="前期准备"></a>前期准备</h2><h3 id="理论基础"><a href="#理论基础" class="headerlink" title="理论基础"></a>理论基础</h3><p>在骑行之前大概参考了网上的一些文章，因为杭州到千岛湖的线路十分经典，这方面的攻略还是不少。可惜的是纯新手视角的文章几乎没有，而千岛湖路线对新手实在是很尴尬——从萧山出发170km的路程，如果分成两天骑量实在是太短，而一天结束的话配速又比较难控制，且体力需求对新手并不是很友好。原本计划配速22km/h左右，为了赶上晚饭决定早上7点集合，事后来看提早出发时间这个决定实在是无比正确。</p>
-<p>查阅天气预报了解到杭州当天刚好要下雨，询问了pro之后得知淳安的山会影响云的轨迹，因此进入淳安境内之后按理天气不会太差，为了保险起见还是备了一些防御措施。</p>
-<p>明确了需求之后就前往迪卡侬和湘湖的捷安特旗舰店购入了一些必备物资。说句题外话，说说是捷安特旗舰店实际上做的全是高端自行车，店里</p>
-<h3 id="装备清单"><a href="#装备清单" class="headerlink" title="装备清单"></a>装备清单</h3><ul>
-<li>自行车<ul>
-<li>借了辆S-Works的全地形车，太巨了(15000刀orz)。减震效果确实很棒，事实上最后同路的朋友的腰也是早早地被山路震得疼，不知道这次还能不能借出来。好的车对骑行体验的影响真的很大，其实之前把骑了9年的老捷安特换成现在骑的Livall的时候就明显感觉到几倍的价格确实带来了几倍的体验……</li>
-<li><img src="https://s4.ax1x.com/2022/01/05/TOzqIJ.jpg" alt="bicycle"></li>
-</ul>
-</li>
-<li>头盔</li>
-<li>骑行手套</li>
-<li>水壶架</li>
-<li>水壶</li>
-<li>六角扳手</li>
-<li>备用内胎<ul>
-<li>骑行途中没有人知道会不会有什么意外，在荒郊野岭之外只能自己修车了。</li>
-</ul>
-</li>
-<li>雨衣</li>
-<li>骑行眼镜<ul>
-<li>考虑到天气还是备上了这两样。迪卡侬的骑行雨衣非常不错，在小雨天气下可以保证不会太容易着凉，而骑行眼镜也可以避免前轮溅起的水进入眼睛。当然这两者的前提都是雨不太大。</li>
-</ul>
-</li>
-<li>骑行衣</li>
-<li>骑行裤<ul>
-<li>如果不购入自带电子的骑行裤的话骑行过程中首先屁股会先受不了，因为全身的压力都集中在被压缩的自行车垫子上，按面积一除的话可想而知屁股的负担有多大。事实上有条件的话应该像上图里朋友的车一样将在坐垫外面同样套上一层海绵。而骑行衣则能保证汗不会黏在身上。</li>
-</ul>
-</li>
-<li>防晒霜</li>
-<li>防暑药<ul>
-<li>腿上的晒痕到现在都还有一条线orz，这还是已经做过防晒措施的情况。</li>
-</ul>
-</li>
-<li>前梁包<ul>
-<li>存放手机和充电宝，导航真的很耗电，充电宝也真的很重。能往车架上多放一点东西就是少一点负重。</li>
-</ul>
-</li>
-<li>码表<ul>
-<li>平常可能几乎不会用到，但是对于长时间骑行来讲非常必要，有跑步经历的话应该非常清楚变速跑是多累人的事，同样的保持匀速在骑行过程中也很重要，如果刚开始觉得体力充足就一直保持30到40码的速度（事实上我们就是这么做的……），到了后半程因为没有这种距离的骑行经验很容易就陷入疲劳了。同时什么时候能够到达休整点也关乎整体的速度规划，码表作为一个不怎么耗电且更精确的设备可以说是必备品。在自行车店和迪卡侬都能买到。</li>
-</ul>
-</li>
-<li>手电筒<ul>
-<li>不仅仅是夜晚骑行的问题，还要考虑到雾天和雨天下能见度降低的情况，省道上不总是有灯的。</li>
-</ul>
-</li>
-<li>士力架</li>
-</ul>
-<h2 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h2><p>本来以为作为新人来讲这样的准备已经相当充分了，事实上在骑行的过程中由于各种各样的原因还是遇到了不少问题。</p>
-<p>首先是体力分配，上面已经提到，我们在杭州到富阳段由于路况较好，选择了提高配速，而由于市区的红绿灯很多，事实上大量的体力都花费在了起步甚至是踩刹车上，既然当初计划了22码的配速在常规地形就还是应该按照计划来骑行。</p>
-<p>其次是海拔问题，规划的时候只考虑到了单纯的距离，而离开富阳市区进入302省道之后茫茫多的上坡成为了最大的关卡。刚开始凭借着体力充沛并没有选择换挡而是直接保持一定的速度骑了不少的距离，结果好不容易熬出302省道之后发现305省道的上坡路段无论是长度还是高度都有过之而无不及……于是只能以缓慢推行的方式通过这些路段，这自然效率极低。</p>
-<p>其三是修整点的问题。原本计划中午在桐庐市区修整，然而上一条把所有的时间规划都打乱了，结果最后靠两条士力架作为唯一的热量补给骑完了全程。同时由于疫情关系沿途的店铺几乎都全部关门了，在计划中途休息的时候还是应该做更加充分的考察。</p>
-<p>最后是这次骑行最危险的地方，同时也是本质吞噬体力的罪魁祸首——暴雨。很不幸，整个14小时的骑行过程中唯有下午太阳最烈的时候没有下雨。上午的小雨其实对散热帮助不小，但傍晚的暴雨则非常出乎人意料。一方面骑行眼镜并无法组织这样的暴雨遮挡视线，甚至反而半封闭的结构会导致头盔中渗入的雨水沿着头发滴入到眼镜中难以溜走，最后也是差点撞上了柱子，还好发现事情不对提前减速才避开；而更致命的是，尽管考虑到了雨天并为自己做好了防水工作，但是并没有带防水的登山包而是带了普通的背包——衣物就像海绵一样边吸水边增重，使得本来刻意精简过的背包里塞进了几块砖头。稍稍做一下受力分析就可以知道这样多出来的重量在上坡的时候会给背部增加多大的负担，因而这成了这次骑行准备过程中最大的败笔。</p>
-<h2 id="对应的解决措施以及额外准备"><a href="#对应的解决措施以及额外准备" class="headerlink" title="对应的解决措施以及额外准备"></a>对应的解决措施以及额外准备</h2><ul>
-<li><p>更换冬季骑行手套和衣物</p>
-<ul>
-<li>冬天和夏天不一样，尽管骑行的时候身体很容易发热，但是也应该保证好保暖措施，尤其是春节前这段时间气温较低，一组合适的骑行套装还是很有必要的。</li>
-</ul>
-</li>
-<li><p>使用防水背包</p>
-</li>
-<li><p>更细致的规划路线</p>
-<ul>
-<li>杭州到上海的路线没有太多的起伏，相较淳安线路来说肯定会轻松不少。同时可操作的空间也更多，由于距离拉长了，分成两天几乎是必须的选择，而这个休整点放在什么地方也需要仔细考虑，可能选择第一天120-130km，第二天任务较清的同时可以早点到目的地。</li>
-</ul>
-</li>
-<li><p>严格配速</p>
-</li>
-</ul>
-<h2 id="最后的一点闲话"><a href="#最后的一点闲话" class="headerlink" title="最后的一点闲话"></a>最后的一点闲话</h2><p>其实这两次的骑行地点都是很有执念的选择。一起骑行的朋友的父亲曾经在千岛湖开元度假村工作过，而那段时间我正好因为父亲的关系有幸在刚开业的时候住了几天，并成功摔破了自己的上嘴唇留下了一段永远忘不了的小小的心理阴影。所以这次最终也是特地选择在同样的地点住了两天。很巧的是，入住之后点了一杯星冰乐，结果第二天早上起来发现星巴克就在湖对面……      </p>
-<p><img src="https://s4.ax1x.com/2022/01/05/TXCQoD.jpg" alt="starbucks"></p>
-<p>至于为什么选择上海如果能成行的话在下次的复盘里再写吧。</p>
-<p>总的来讲，尽管由于体力不足（和懒了）没有完成第二天环湖半周的安排；客车司机还同意把自行车拉回去因此也没能自己租辆SUV开回杭州，虽然早就想这么干了。但这次经历仍然是大学期间为数不多可以以正面方式提起的经历了。最后以一张这次拍到最喜欢的照片结尾吧（虽然有点压过了）。</p>
-<p><img src="https://s4.ax1x.com/2022/01/05/TXCtyt.jpg" alt="sky"></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1475,14 +1469,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-count">17</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
