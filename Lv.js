@@ -1,4 +1,4 @@
-let lvData = [
+const lvData = [
   {
    "Name": "踊",
    "Kind": "DX",
@@ -8223,4 +8223,4 @@ let lvData = [
    "Lv": 12.6,
    "Ver": 0
   }
- ]
+ ];
