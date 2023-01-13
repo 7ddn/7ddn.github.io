@@ -1,4 +1,4 @@
-picURLs = [
+var picURLs = [
     {
         "name": "踊",
         "url": "https://maimaidx.jp/maimai-mobile/img/Music/eb5f9769d1afd885.png"
